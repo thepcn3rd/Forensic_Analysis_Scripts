@@ -6,7 +6,7 @@ notesFile='notes.txt'
 
 if [ $filename ]
         then
-                echo "" >> $notesFile
+                echo "" > $notesFile
                 for volume in '/mnt/drive0' '/mnt/drive1'  
                 do
                         find $volume -type f -name $filename > $fileLocations
@@ -29,8 +29,8 @@ if [ $filename ]
                 cat $fileLocations | sed 's/ /\\ /g' | sed "s/^/stat --printf '%n mtime: %y ctime: %z atime: %x crtime:%w\\n\\n' /" >> evaluateFiles.sh
                 chmod 700 evaluateFiles.sh
                 ./evaluateFiles.sh >> $notesFile
-                # Clean-up the evaluateFiles.sh file
-                rm -f evaluateFiles.sh
+                # Clean-up the evaluateFiles.sh and fileLocations file
+                rm -f evaluateFiles.sh $fileLocations
                 # cat the notes file becuase this is normally the next command that I would run
                 cat $notesFile
 else
