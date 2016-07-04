@@ -6,7 +6,6 @@ notesFile='notes.txt'
 
 if [ $filename ]
         then
-                echo "" > $fileLocations
                 for volume in '/mnt/drive0' '/mnt/drive1'  
                 do
                         find $volume -type f -name $filename >> $fileLocations
