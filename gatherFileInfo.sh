@@ -6,10 +6,10 @@ notesFile='notes.txt'
 
 if [ $filename ]
         then
-                echo "" > $notesFile
+                echo "" > $fileLocations
                 for volume in '/mnt/drive0' '/mnt/drive1'  
                 do
-                        find $volume -type f -name $filename > $fileLocations
+                        find $volume -type f -name $filename >> $fileLocations
                 done
                 echo "#!/bin/bash" > evaluateFiles.sh
                 echo "echo ''" >> evaluateFiles.sh
@@ -28,7 +28,7 @@ if [ $filename ]
                 echo "echo 'Displaying the Modified, Creation, and Last Access Time of the file'" >> evaluateFiles.sh
                 cat $fileLocations | sed 's/ /\\ /g' | sed "s/^/stat --printf '%n mtime: %y ctime: %z atime: %x crtime:%w\\n\\n' /" >> evaluateFiles.sh
                 chmod 700 evaluateFiles.sh
-                ./evaluateFiles.sh >> $notesFile
+                ./evaluateFiles.sh > $notesFile
                 # Clean-up the evaluateFiles.sh and fileLocations file
                 rm -f evaluateFiles.sh $fileLocations
                 # cat the notes file becuase this is normally the next command that I would run
