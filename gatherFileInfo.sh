@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This allows you to search across multiple mounted volumes or shadow coppies for a file of interest.
+# If it finds the file then it will save to a notes file additional information about the file...
+
 filename=$1     # This is the filename to search for amongst the mounted volumes
 fileLocations='files.txt'
 notesFile='notes.txt'
