@@ -1,0 +1,6 @@
+# Create a share that can be saved to @ \\lefty007\savefiles
+# Place in the share the autorunsc.exe
+# Loops through the subnet 1 IP at a time with a timeout of 5 seconds
+# Open command prompt then paste for loop inside of it...
+# Saves the information to a respective csv file
+for /L %i in (1, 1, 254) do @psexec.exe -s -n 5 -d \\10.5.5.%i cmd /c "net use x: \\lefty007\savefiles && x:\autorunsc.exe -accepteula -a * -c > x:\10.5.5.%i.csv && net use x: /delete"
