@@ -4,3 +4,40 @@
 # Open command prompt then paste for loop inside of it...
 # Saves the information to a respective csv file
 for /L %i in (1, 1, 254) do @psexec.exe -s -n 5 -d \\10.5.5.%i cmd /c "net use x: \\lefty007\savefiles && x:\autorunsc.exe -accepteula -a * -c > x:\10.5.5.%i.csv && net use x: /delete"
+
+# After the csv files are collected I will move them to an anlysis box that is running linux.  
+# I will first convert them to a unix format by runnin the following command
+dos2unix *.csv
+
+# For seperating the analysis information from the collected csv files I create an analysis directory
+mkdir analysis
+
+# Then I combine the csv files into 1.  This is not necessry.
+cat *.csv > analysis/all.csv
+
+# Initially what I am interested in is the column that is called "Image Path".  This is the directory of where the running program is located.
+# The below python script will pull in the all.csv file, utilize the csvreader library and output the "Image Paths".
+
+#!/usr/bin/python
+
+import csv
+
+with open('all.csv', 'r') as csvfile:
+        line = csv.reader(csvfile, delimiter=',', quotechar='"')
+        for row in line:
+                print row[8]
+                
+# Then I execute the script and capture the output
+cd analysis
+./script.py > temp
+
+# The final step is to sort, group the unique lines with a count of how many were grouped and then sort by the numerical count.
+
+cat temp | sort | uniq -c | sort -n > freqAnalysis.csv
+
+# For the analysis of the file that was created...
+1. You can look through them for suspicious entries
+2. Search for "temp", "coupon" or other keywords (cat freqAnalysis.csv | grep -i "temp")
+3. Then if you find an interesting entrie go back and find the corresponding IP Address for that entry
+- (grep -l "interesting line" *.csv)
+
