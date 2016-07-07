@@ -8,7 +8,7 @@ if [ $filename ]
         then
                 for volume in '/mnt/drive0' '/mnt/drive1'  
                 do
-                        find $volume -type f -name $filename >> $fileLocations
+                        find $volume -type f -iname $filename >> $fileLocations
                 done
                 echo "#!/bin/bash" > evaluateFiles.sh
                 echo "echo ''" >> evaluateFiles.sh
